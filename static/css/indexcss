@@ -1,0 +1,12 @@
+h1 {
+  text-align: center;
+}
+
+@media only screen and (max-width: 600px) {
+  #submit-btn {
+    font-size: 30px;
+    text-align: center;
+  }
+}
+
+/*# sourceMappingURL=indexcss.map */

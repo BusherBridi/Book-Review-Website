@@ -1,0 +1,49 @@
+h1 {
+  text-align: center;
+}
+
+#signUpRow .display-4 {
+  padding-bottom: 10px;
+}
+
+@media only screen and (max-width: 600px) {
+  #submit-btn {
+    display: block;
+    font-size: 30px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  #signUpRow .display-4 {
+    font-size: 20px;
+    text-align: center;
+    padding-bottom: 15px;
+  }
+  #signUpRow .btn.btn-primary {
+    display: block;
+    font-size: 20px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  #logInRow h3 {
+    padding-top: 30px;
+    text-align: center;
+  }
+}
+#footerBooks {
+  display: block;
+  padding-top: 100px;
+  width: 15%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#logoutAlert {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 30%;
+}
+
+/*# sourceMappingURL=index.css.map */

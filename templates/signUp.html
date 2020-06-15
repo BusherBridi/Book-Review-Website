@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+        <link rel = "stylesheet" href = "../static/css/signUp.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>
+            Sign Up
+        </title>
+    </head>
+    <body>
+        <h1 class = "display-1">Book Reviews</h1>
+        <h3>Create new acount:</h3>
+        <div class = "container">
+            <div class = "row">
+                <div class = "col-lg">
+                    <form  action = "{{url_for('userCreationComplete')}}" method = "post" class = "form-group">
+                                
+                        <label for="firstName" class = "signUpLabel">First Name</label>
+                        <input type ="text" class = "form-control" id = "firstName" name = "firstName" required>  
+
+                        <label for = "lastName" class = "signUpLabel">Last Name</label>
+                        <input type = "text" class = "form-control" id = "lastName" name = "lastName" required>
+
+                        <lable for = "email" class = "signUpLabel">E-mail</lable>
+                        <input type = "email" class = "form-control" id = "email" name = "email" required>
+                        
+                        <label for = "username" class = "signUpLabel">Username</label>
+                        <input type = "text" class = "form-control" id = "username" name = "username" required>
+
+                        <label for = "password" class = "signUpLabel">Password</label>
+                        <input type = "password" class = "form-control" id = "username" name = "password" required>
+
+                    
+                    
+                    <button type ="submit" class = "btn btn-primary" id = "submit-btn">Create New Account</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    </body>
+</html>

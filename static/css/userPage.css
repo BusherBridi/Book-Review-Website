@@ -1,0 +1,46 @@
+#query {
+  width: 40%;
+  margin-right: auto;
+}
+
+@media only screen and (max-width: 600px) {
+  #query {
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
+    height: 60px;
+  }
+
+  .formLabel {
+    font-size: 30px;
+    padding-left: 35%;
+  }
+
+  form {
+    font-size: 20px;
+  }
+
+  #search {
+    margin-left: 40%;
+    width: 100px;
+    height: 50px;
+    background-color: green;
+  }
+
+  #logout {
+    margin-left: 40%;
+    margin-top: 100px;
+    background-color: tomato;
+  }
+
+  .radioBtn {
+    margin-left: 70px;
+  }
+
+  #userWelcome {
+    text-align: center;
+    padding-bottom: 30px;
+  }
+}
+
+/*# sourceMappingURL=userPage.css.map */

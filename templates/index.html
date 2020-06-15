@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+        <link rel = "stylesheet" href = "../static/css/index.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>
+            Book Reviews
+        </title>
+    </head>
+    <body>
+        <div class="alert alert-primary" role="alert" id = "logoutAlert">
+            {{message}}
+          </div>
+        <h1 class = "display-1">Book Reviews</h1>
+        <div class = "container">
+            <div class = "row" id="signUpRow">
+                <div class = "col-sm">
+                    <div class = "display-4">Dont have an account? Sign-Up:</div>
+                    
+                    <form action = "{{url_for('signUp')}}">
+                        <input type = "submit" value = "Sign-Up" class ="btn btn-primary"/>
+                    </form>
+                    
+                </div>
+                <div class = col-lg id= "logInRow">
+                    <h3>Log-In</h3>
+                    <form action = "{{url_for('dashboard')}}" method = "post" class = "form-group">
+                      
+                            <label for="username">Username</label>
+                            <input type ="text" class = "form-control" id = "username" name = "username">  
+
+                        
+                            <lablel for="password">Password</lablel>
+                            <input type = "password" class = "form-control" id = "password" name = "password">
+                        
+                        <button type ="submit" class = "btn btn-primary" id = "submit-btn">Log-In</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </body>
+    <footer>
+        <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2F1001freedownloads.s3.amazonaws.com%2Fvector%2Fthumb%2F93674%2F1309128948.png&f=1&nofb=1" alt = "books" id = "footerBooks">
+    </footer>
+</html>
