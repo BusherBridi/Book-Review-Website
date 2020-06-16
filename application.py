@@ -86,7 +86,8 @@ def logout():
 
 @app.route("/searchResult", methods=["POST"])
 def searchResult():
-    query = request.form.get("query")
+    query = request.form.get("query").upper()
+    query = query.upper()
     queryParameter = request.form.get("searchGroup")
     if(queryParameter == "isbn"):
         if(db.execute("SELECT * FROM books WHERE upper(isbn) LIKE CONCAT('%', :isbn, '%'",{"isbn":query}).rowcount == 0):
