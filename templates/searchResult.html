@@ -10,12 +10,22 @@
 
 <body>
     <p>
+
+
+
+
+        <!-- Check if there are results -->
+        {% if hasResults %}
         <!-- Loop through results with jinja -->
         {% for result in results %}
         <ul>
             <li>{{result.title}}</li>
         </ul>
-        {% endfor %}
+        {% endfor %} {% else %}
+        <h3>No books found!</h3>
+        <p>Go back to search again</p>
+        {% endif %}
+
     </p>
 </body>
 
