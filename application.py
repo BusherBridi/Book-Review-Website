@@ -89,22 +89,29 @@ def searchResult():
     query = request.form.get("query").upper()
     query = query.upper()
     queryParameter = request.form.get("searchGroup")
+    results = None
+    
     if(queryParameter == "isbn"):
-        if(db.execute("SELECT * FROM books WHERE upper(isbn) LIKE CONCAT('%', :isbn, '%'",{"isbn":query}).rowcount == 0):
-            return ("no results")
+        if(db.execute("SELECT * FROM books WHERE upper(isbn) LIKE CONCAT('%', :isbn, '%')",{"isbn":query}).rowcount == 0):
+            hasResults = False
         else:
-            results = db.execute("SELECT * FROM books WHERE upper(isbn) LIKE CONCAT('%', :isbn, '%'",{"isbn":query}).fetchone()
+            results = db.execute("SELECT * FROM books WHERE upper(isbn) LIKE CONCAT('%', :isbn, '%')",{"isbn":query}).fetchall()
+            hasResults = True
         
     if(queryParameter == "author"):
         if(db.execute("SELECT * FROM books WHERE upper(author) LIKE CONCAT('%', :author, '%')", {"author":query}).rowcount == 0):
-            return ("no results")
+            hasResults = False
         else:
             results = db.execute("SELECT * FROM books WHERE upper(author) LIKE CONCAT('%', :author, '%')", {"author":query}).fetchall()
-        
+            hasResults = True
     if(queryParameter == "title"):
         if(db.execute("SELECT * FROM books WHERE upper(title) LIKE CONCAT('%', :title, '%')", {"title":query}).rowcount == 0):
-            return ("no results")
+            hasResults = False
         else:    
             results = db.execute("SELECT * FROM books WHERE upper(title) LIKE CONCAT('%', :title, '%')", {"title":query}).fetchall()
+            hasResults = True
+    return render_template("searchResult.html", results = results, hasResults = hasResults)
+   
 
-    return render_template("searchResult.html", results = results)
+
+
