@@ -116,7 +116,8 @@ def searchResult():
 @app.route("/review/<string:isbn>", methods = ["POST","GET"])
 def displayInfo(isbn):
     book = db.execute("SELECT * FROM books WHERE isbn = :isbn",{"isbn":isbn}).fetchone()
-
+    if request.method == "POST":
+        return render_template("reviewPage.html", book = book)
     if request.method == "GET":
         if book is None:
             return jsonify({"error": "No book with ISBN in database"}), 422
@@ -126,6 +127,7 @@ def displayInfo(isbn):
                 "title":book.title,
                 "author":book.author
             })
-   
+
+  
 
 

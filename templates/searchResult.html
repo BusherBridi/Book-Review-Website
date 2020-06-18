@@ -18,10 +18,15 @@
         {% if hasResults %}
         <!-- Loop through results with jinja -->
         {% for result in results %}
+
         <ul>
             <li>
-                <a href="review/{{result.isbn}}"> {{result.title}} </a></li>
+                <form class="form-group" action="{{url_for('displayInfo',isbn = result.isbn)}}" method="post">
+                    <button class="btn btn-primary" type="submit">{{result.title}}</button>
+                </form>
+            </li>
         </ul>
+
         {% endfor %} {% else %}
         <h3>No books found!</h3>
         <p>Go back to search again</p>
