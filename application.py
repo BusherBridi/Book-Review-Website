@@ -113,8 +113,9 @@ def searchResult():
     return render_template("searchResult.html", results = results, hasResults = hasResults)
    
 
-@app.route("/<string:isbn>")
+@app.route("/review/<string:isbn>", methods = ["POST","GET"])
 def displayInfo(isbn):
-    book = db.execute("SELECT * FROM books WHERE isbn = :isbn",{"isbn":isbn}).fetchone()
-    return render_template("reviewPage.html", book = book)
-
+    if request.method == "GET":
+        book = db.execute("SELECT * FROM books WHERE isbn = :isbn",{"isbn":isbn}).fetchone()
+        return render_template("reviewPage.html", book = book)
+   
