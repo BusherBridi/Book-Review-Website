@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, session, render_template, request
+from flask import Flask, session, render_template, request, jsonify
 from flask_session import Session
 from sqlalchemy import create_engine, exc
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -117,5 +117,9 @@ def searchResult():
 def displayInfo(isbn):
     if request.method == "GET":
         book = db.execute("SELECT * FROM books WHERE isbn = :isbn",{"isbn":isbn}).fetchone()
-        return render_template("reviewPage.html", book = book)
+        return jsonify({
+            "isbn":book.isbn,
+            "title":book.title,
+            "author":book.author
+        })
    
