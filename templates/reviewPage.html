@@ -12,7 +12,7 @@
     <p>{{book.title}}</p>
     <p>{{book.author}}</p>
     <p>{{book.isbn}}</p>
-    <form class="form-group">
+    <form class="form-group" action="{{url_for('confirm')}}" method="post">
         <label for="rating">Please leave a rating: (0-5)</label>
 
         <select name="rating" id="rating">
@@ -25,6 +25,7 @@
         </select>
         <label for="review">Please leave a review:</label>
         <input type="text" name="review" id="review">
+        <button class="btn btn-primary" type="submit">Submit</button>
     </form>
 </body>
 
