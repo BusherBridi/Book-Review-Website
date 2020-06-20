@@ -128,6 +128,14 @@ def displayInfo(isbn):
                 "author":book.author
             })
 
+@app.route("/review/confirm", methods = ["POST"])
+def confirm():
+    rating = request.form.get("rating")
+    review = request.form.get("review")
+
+    return (rating)
+
+
   
 
 
