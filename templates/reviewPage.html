@@ -12,6 +12,20 @@
     <p>{{book.title}}</p>
     <p>{{book.author}}</p>
     <p>{{book.isbn}}</p>
+    <form class="form-group">
+        <label for="rating">Please leave a rating: (0-5)</label>
+
+        <select name="rating" id="rating">
+          <option value="0">0</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+        <label for="review">Please leave a review:</label>
+        <input type="text" name="review" id="review">
+    </form>
 </body>
 
 </html>
