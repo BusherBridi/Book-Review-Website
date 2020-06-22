@@ -13,25 +13,24 @@ if not os.getenv("DATABASE_URL"):
     raise RuntimeError("DATABASE_URL is not set")
 
 # Configure session to use filesystem
-app.config["SESSION_PERMANENT"] = False
-app.config["SESSION_TYPE"] = "filesystem"
-Session(app)
+# app.config["SESSION_PERMANENT"] = False
+# app.config["SESSION_TYPE"] = "filesystem"
+# Session(app)
 
 # Set up database
 engine = create_engine(os.getenv("DATABASE_URL"))
 db = scoped_session(sessionmaker(bind=engine))
 
-firstName = "user"
-#session["logged_in"] = None
+app.secret_key = ""
+
 
 
 @app.route("/")
 def index():
     if ("logged_in" in session):
-        session["logged_in"] = False
-        return render_template("index.html")
-    if(session["logged_in"]):
-        return render_template(dashboard())
+        if(session["logged_in"] == True):
+            return "good"
+        
     else:
         return render_template("index.html")
 
@@ -116,7 +115,9 @@ def searchResult():
 @app.route("/review/<string:isbn>", methods = ["POST","GET"])
 def displayInfo(isbn):
     book = db.execute("SELECT * FROM books WHERE isbn = :isbn",{"isbn":isbn}).fetchone()
+    session["book_id"] = book.id
     if request.method == "POST":
+        session["book_id"] = book.id
         return render_template("reviewPage.html", book = book)
     if request.method == "GET":
         if book is None:
@@ -132,10 +133,11 @@ def displayInfo(isbn):
 def confirm():
     rating = request.form.get("rating")
     review = request.form.get("review")
+    b_id = session["book_id"]
     #TODO: Add this stuff to the DB.. Somehow get the USER_ID and BOOK_ID to add this in the DB
     #TODO: Add code to 'reviewPage.html' to display current reviews from DB
     #TODO: Add confirm.html (and error?html) to tell user if DB was updated
-    return (rating)
+    return (str(b_id))
 
 
   
