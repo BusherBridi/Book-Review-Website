@@ -40,17 +40,18 @@ def dashboard():
     firstName = "User"
     
     if "user_info" in session and session["logged_in"] == True:
-            firstName = session["user_info"]
+            firstName = session["user_info"]["firstName"]
             return render_template("userPage.html", firstName=firstName)
     else:
         username = request.form.get("username")
         password = request.form.get("password")
-        if(db.execute("SELECT * FROM users WHERE username = :username AND password = :password", {"username": username, "password": password}).rowcount == 1 or session["logged_in"] == True):
+        if(db.execute("SELECT * FROM users WHERE username = :username AND password = :password", {"username": username, "password": password}).rowcount == 1):
             session["logged_in"] = True
-            firstName = db.execute("SELECT firstName FROM users WHERE username = :username AND password = :password", {
+            user = db.execute("SELECT * FROM users WHERE username = :username AND password = :password", {
                                     "username": username, "password": password}).fetchone()
-            firstName = (firstName.firstname).capitalize()
-            session["user_info"] = firstName
+            user_id = user.id
+            firstName = (user.firstname).capitalize()
+            session["user_info"] = {"user_id":user_id, "firstName":firstName}
             return render_template("userPage.html", firstName = firstName)
             
         else:
@@ -146,8 +147,12 @@ def displayInfo(isbn):
 def confirm():
     rating = request.form.get("rating")
     review = request.form.get("review")
-    b_id = session["book_id"]
+    book_id = session["book_id"]
+    user_id = session["user_info"]["user_id"]
+    db.execute("INSERT INTO reviews (user_id, book_id, review, rating) VALUES (:user_id, :book_id, :review, :rating)",
+                       {"user_id": user_id, "book_id": book_id, "review": review, "rating": rating})
+    db.commit()
     # TODO: Add this stuff to the DB.. Somehow get the USER_ID and BOOK_ID to add this in the DB
     # TODO: Add code to 'reviewPage.html' to display current reviews from DB
     # TODO: Add confirm.html (and error?html) to tell user if DB was updated
-    return (str(b_id))
+    return (str(user_id))
