@@ -149,10 +149,14 @@ def confirm():
     review = request.form.get("review")
     book_id = session["book_id"]
     user_id = session["user_info"]["user_id"]
-    db.execute("INSERT INTO reviews (user_id, book_id, review, rating) VALUES (:user_id, :book_id, :review, :rating)",
-                       {"user_id": user_id, "book_id": book_id, "review": review, "rating": rating})
-    db.commit()
+    try:
+        db.execute("INSERT INTO reviews (user_id, book_id, review, rating) VALUES (:user_id, :book_id, :review, :rating)",{"user_id": user_id, "book_id": book_id, "review": review, "rating": rating})
+        db.commit()
+        return ("success")
+    except Exception as error:
+            errorMSG = error.args[0]
+            return render_template("error.html", error=errorMSG)
     # TODO: Add this stuff to the DB.. Somehow get the USER_ID and BOOK_ID to add this in the DB
     # TODO: Add code to 'reviewPage.html' to display current reviews from DB
     # TODO: Add confirm.html (and error?html) to tell user if DB was updated
-    return (str(user_id))
+   
