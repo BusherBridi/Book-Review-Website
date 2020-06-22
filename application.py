@@ -132,7 +132,9 @@ def displayInfo(isbn):
 def confirm():
     rating = request.form.get("rating")
     review = request.form.get("review")
-
+    #TODO: Add this stuff to the DB.. Somehow get the USER_ID and BOOK_ID to add this in the DB
+    #TODO: Add code to 'reviewPage.html' to display current reviews from DB
+    #TODO: Add confirm.html (and error?html) to tell user if DB was updated
     return (rating)
 
 
