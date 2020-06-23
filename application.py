@@ -152,7 +152,7 @@ def confirm():
     try:
         db.execute("INSERT INTO reviews (user_id, book_id, review, rating) VALUES (:user_id, :book_id, :review, :rating)",{"user_id": user_id, "book_id": book_id, "review": review, "rating": rating})
         db.commit()
-        return ("success")
+        return render_template("success.html")
     except Exception as error:
             errorMSG = error.args[0]
             return render_template("error.html", error=errorMSG)
