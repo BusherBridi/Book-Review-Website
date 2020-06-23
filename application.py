@@ -128,10 +128,12 @@ def searchResult():
 def displayInfo(isbn):
     book = db.execute("SELECT * FROM books WHERE isbn = :isbn",
                       {"isbn": isbn}).fetchone()
+    reviews = db.execute("SELECT * FROM reviews WHERE book_id =:book_id", {"book_id": book.id}).fetchall()
     session["book_id"] = book.id
     if request.method == "POST":
         session["book_id"] = book.id
-        return render_template("reviewPage.html", book=book)
+        
+        return render_template("reviewPage.html", book=book, reviews = reviews)
     if request.method == "GET":
         if book is None:
             return jsonify({"error": "No book with ISBN in database"}), 422
@@ -156,7 +158,9 @@ def confirm():
     except Exception as error:
             errorMSG = error.args[0]
             return render_template("error.html", error=errorMSG)
-    # TODO: Add this stuff to the DB.. Somehow get the USER_ID and BOOK_ID to add this in the DB
-    # TODO: Add code to 'reviewPage.html' to display current reviews from DB
-    # TODO: Add confirm.html (and error?html) to tell user if DB was updated
+    
+    # TODO: Add code to 'reviewPage.html' to display current reviews from DB []
+    # TODO: Add confirm.html (and error?html) to tell user if DB was updated []
+    #--------COMPLETED--------
+    # TODO: Add this stuff to the DB.. Somehow get the USER_ID and BOOK_ID to add this in the DB 
    
