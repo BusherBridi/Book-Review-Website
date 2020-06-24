@@ -12,11 +12,13 @@
     <p>{{book.title}}</p>
     <p>{{book.author}}</p>
     <p>{{book.isbn}}</p>
-    {% for review in reviews %}
+
     <ul>
+        {% for review in reviews %}
         <li>{{review.review}}</li>
+        {% endfor %}
     </ul>
-    {% endfor %}
+
     <form class="form-group" action="{{url_for('confirm')}}" method="post">
         <label for="rating">Please leave a rating: (0-5)</label>
 
