@@ -47,6 +47,27 @@
 
                 </footer>
             </div>
+            <div class="col-sm">
+                <h3>Your reviews</h3>
+                <ul>
+                    {% for review in reviews %}
+                    <li>
+                        <div class="card" style="width 18rem;">
+                            <div class="card-body ">
+                                <h5> {{review.book_id}}</h5>
+                                <h6>{{review.rating}}</h6>
+                                <h6>{{review.review}}</h6>
+                            </div>
+
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
 </body>
 
 
