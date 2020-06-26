@@ -38,22 +38,29 @@ def index():
 @app.route("/dashboard", methods=["POST"])
 def dashboard():
     firstName = "User"
-    
+
     if "user_info" in session and session["logged_in"] == True:
-            firstName = session["user_info"]["firstName"]
-            return render_template("userPage.html", firstName=firstName)
+        firstName = session["user_info"]["firstName"]
+        user_id = session["user_info"]["user_id"]
+        userReviews = db.execute(
+            "SELECT * FROM reviews WHERE user_id = :user_id", {"user_id": user_id}).fetchall()
+        #session["user_info"] = {"user_id":user_id, "firstName":firstName, "reviews":userReviews}
+        #session["user_info"]["reviews"] = userReviews
+        return render_template("userPage.html", firstName=firstName, reviews=userReviews)
     else:
         username = request.form.get("username")
         password = request.form.get("password")
         if(db.execute("SELECT * FROM users WHERE username = :username AND password = :password", {"username": username, "password": password}).rowcount == 1):
             session["logged_in"] = True
             user = db.execute("SELECT * FROM users WHERE username = :username AND password = :password", {
-                                    "username": username, "password": password}).fetchone()
+                "username": username, "password": password}).fetchone()
             user_id = user.id
             firstName = (user.firstname).capitalize()
-            session["user_info"] = {"user_id":user_id, "firstName":firstName}
-            return render_template("userPage.html", firstName = firstName)
-            
+            session["user_info"] = {"user_id": user_id, "firstName": firstName}
+            userReviews = db.execute("SELECT reviews.*,books.title FROM reviews INNER JOIN books ON reviews.book_id=books.id WHERE reviews.user_id= :user_id",{"user_id": user_id}.fetchall()
+            #session["user_info"] = {"user_id":user_id, "firstName":firstName, "reviews":userReviews}
+            return render_template("userPage.html", firstName=firstName, reviews=userReviews)
+
         else:
             errorMessage = "username or password is incorrect"
             return render_template("error.html", error=errorMessage)
@@ -128,12 +135,13 @@ def searchResult():
 def displayInfo(isbn):
     book = db.execute("SELECT * FROM books WHERE isbn = :isbn",
                       {"isbn": isbn}).fetchone()
-    reviews = db.execute("SELECT * FROM reviews WHERE book_id =:book_id", {"book_id": book.id}).fetchall()
+    reviews = db.execute(
+        "SELECT * FROM reviews WHERE book_id =:book_id", {"book_id": book.id}).fetchall()
     session["book_id"] = book.id
     if request.method == "POST":
         session["book_id"] = book.id
-        
-        return render_template("reviewPage.html", book=book, reviews = reviews)
+
+        return render_template("reviewPage.html", book=book, reviews=reviews)
     if request.method == "GET":
         if book is None:
             return jsonify({"error": "No book with ISBN in database"}), 422
@@ -152,15 +160,15 @@ def confirm():
     book_id = session["book_id"]
     user_id = session["user_info"]["user_id"]
     try:
-        db.execute("INSERT INTO reviews (user_id, book_id, review, rating) VALUES (:user_id, :book_id, :review, :rating)",{"user_id": user_id, "book_id": book_id, "review": review, "rating": rating})
+        db.execute("INSERT INTO reviews (user_id, book_id, review, rating) VALUES (:user_id, :book_id, :review, :rating)", {
+                   "user_id": user_id, "book_id": book_id, "review": review, "rating": rating})
         db.commit()
         return render_template("success.html")
     except Exception as error:
-            errorMSG = error.args[0]
-            return render_template("error.html", error=errorMSG)
-    
+        errorMSG = error.args[0]
+        return render_template("error.html", error=errorMSG)
+
     # TODO: Add code to 'reviewPage.html' to display current reviews from DB []
     # TODO: Add confirm.html (and error?html) to tell user if DB was updated []
-    #--------COMPLETED--------
-    # TODO: Add this stuff to the DB.. Somehow get the USER_ID and BOOK_ID to add this in the DB 
-   
+    # --------COMPLETED--------
+    # TODO: Add this stuff to the DB.. Somehow get the USER_ID and BOOK_ID to add this in the DB
