@@ -42,8 +42,7 @@ def dashboard():
     if "user_info" in session and session["logged_in"] == True:
         firstName = session["user_info"]["firstName"]
         user_id = session["user_info"]["user_id"]
-        userReviews = db.execute(
-            "SELECT * FROM reviews WHERE user_id = :user_id", {"user_id": user_id}).fetchall()
+        userReviews = db.execute("SELECT reviews.*,books.title FROM reviews INNER JOIN books ON reviews.book_id=books.id WHERE reviews.user_id=:user_id",{"user_id": user_id}).fetchall()
         #session["user_info"] = {"user_id":user_id, "firstName":firstName, "reviews":userReviews}
         #session["user_info"]["reviews"] = userReviews
         return render_template("userPage.html", firstName=firstName, reviews=userReviews)
@@ -57,8 +56,7 @@ def dashboard():
             user_id = user.id
             firstName = (user.firstname).capitalize()
             session["user_info"] = {"user_id": user_id, "firstName": firstName}
-            userReviews = db.execute("SELECT reviews.*,books.title FROM reviews INNER JOIN books ON reviews.book_id=books.id WHERE reviews.user_id= :user_id",{"user_id": user_id}.fetchall()
-            #session["user_info"] = {"user_id":user_id, "firstName":firstName, "reviews":userReviews}
+            userReviews = db.execute("SELECT reviews.*,books.title FROM reviews INNER JOIN books ON reviews.book_id=books.id WHERE reviews.user_id=:user_id",{"user_id": user_id}).fetchall()
             return render_template("userPage.html", firstName=firstName, reviews=userReviews)
 
         else:
@@ -135,8 +133,8 @@ def searchResult():
 def displayInfo(isbn):
     book = db.execute("SELECT * FROM books WHERE isbn = :isbn",
                       {"isbn": isbn}).fetchone()
-    reviews = db.execute(
-        "SELECT * FROM reviews WHERE book_id =:book_id", {"book_id": book.id}).fetchall()
+    #reviews = db.execute("SELECT reviews.* FROM reviews WHERE book_id =:book_id", {"book_id": book.id}).fetchall()
+    reviews = db.execute(" SELECT reviews.*, books.id AS bookID, users.username FROM reviews INNER JOIN users ON reviews.user_id=users.id INNER JOIN books ON reviews.book_id=books.id WHERE book_id =:book_id",{"book_id": book.id}).fetchall()
     session["book_id"] = book.id
     if request.method == "POST":
         session["book_id"] = book.id
