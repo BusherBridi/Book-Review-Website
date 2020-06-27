@@ -9,7 +9,7 @@ import traceback
 import csv
 
 # Set up database
-engine = create_engine("postgres://qljlzzefwxpwox:477e86dbba51f73812c139efd2eacfc1f755e62fbc187d97d4a24613482d05f0@ec2-52-87-135-240.compute-1.amazonaws.com:5432/d9h58jebdkiikn")
+engine = create_engine("dbURL")
 db = scoped_session(sessionmaker(bind=engine))
 
 
