@@ -22,22 +22,25 @@
         </li>
         {% endfor %}
     </ul>
-
+    {% if canPost %}
     <form class="form-group" action="{{url_for('confirm')}}" method="post">
         <label for="rating">Please leave a rating: (0-5)</label>
 
         <select name="rating" id="rating">
-          <option value="0">0</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-        </select>
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
         <label for="review">Please leave a review:</label>
         <input type="text" name="review" id="review">
         <button class="btn btn-primary" type="submit">Submit</button>
     </form>
+    {% else %}
+    <p>You have already reviewed this book!</p>
+    {% endif %}
 </body>
 
 </html>
