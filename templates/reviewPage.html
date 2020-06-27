@@ -15,7 +15,11 @@
 
     <ul>
         {% for review in reviews %}
-        <li>{{review.review}}</li>
+        <li>
+            <h3>{{review.user_id}}:</h3>
+            Rating: {{review.rating}}
+            <br> Review: {{review.review}}
+        </li>
         {% endfor %}
     </ul>
 
