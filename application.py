@@ -134,12 +134,19 @@ def displayInfo(isbn):
     book = db.execute("SELECT * FROM books WHERE isbn = :isbn",
                       {"isbn": isbn}).fetchone()
     #reviews = db.execute("SELECT reviews.* FROM reviews WHERE book_id =:book_id", {"book_id": book.id}).fetchall()
-    reviews = db.execute(" SELECT reviews.*, books.id AS bookID, users.username FROM reviews INNER JOIN users ON reviews.user_id=users.id INNER JOIN books ON reviews.book_id=books.id WHERE book_id =:book_id",{"book_id": book.id}).fetchall()
+    reviews = db.execute("SELECT reviews.*, books.id AS bookID, users.username FROM reviews INNER JOIN users ON reviews.user_id=users.id INNER JOIN books ON reviews.book_id=books.id WHERE book_id =:book_id",{"book_id": book.id}).fetchall()
     session["book_id"] = book.id
+    user_id = session["user_info"]["user_id"]
+    hasReviews = db.execute("SELECT reviews.*, books.id AS bookID, users.id FROM reviews INNER JOIN users ON reviews.user_id=users.id INNER JOIN books ON reviews.book_id=books.id WHERE user_id=:user_id AND book_id=:book_id",{"book_id":book.id, "user_id":user_id}).rowcount
+    canPost = False
+    if not hasReviews:
+        canPost = True
+    else:
+        canPost = False
     if request.method == "POST":
         session["book_id"] = book.id
 
-        return render_template("reviewPage.html", book=book, reviews=reviews)
+        return render_template("reviewPage.html", book=book, reviews=reviews, canPost=canPost)
     if request.method == "GET":
         if book is None:
             return jsonify({"error": "No book with ISBN in database"}), 422
