@@ -180,9 +180,10 @@ def confirm():
     except Exception as error:
         errorMSG = error.args[0]
         return render_template("error.html", error=errorMSG)
-    # TODO: add password constraints in sign up
+    
     # --------COMPLETED--------
     # TODO: Add this stuff to the DB.. Somehow get the USER_ID and BOOK_ID to add this in the DB
     # TODO: Add confirm.html (and error?html) to tell user if DB was updated []
     # TODO: Add code to 'reviewPage.html' to display current reviews from DB []
     # TODO: remove case sensitivty in username
+    # TODO: add password constraints in sign up
