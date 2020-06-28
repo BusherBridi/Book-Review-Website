@@ -30,6 +30,7 @@ def index():
         if(session["logged_in"] == True):
             return render_template("goToDashboard.html")
         else:
+            session["logged_in"] = True
             return render_template("index.html")
     else:
         return render_template("index.html")
@@ -84,6 +85,7 @@ def userCreationComplete():
             db.execute("INSERT INTO users (firstName, lastName, email, username, password) VALUES (:firstName, :lastName, :email, :username, :password)",
                        {"firstName": firstName, "lastName": lastName, "email": email, "username": username, "password": password})
             db.commit()
+            session["logged_in"] = True
             return render_template("userCreationComplete.html")
         except Exception as error:
             errorMSG = error.args[0]
