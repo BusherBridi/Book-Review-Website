@@ -75,7 +75,7 @@ def userCreationComplete():
     firstName = request.form.get("firstName")
     lastName = request.form.get("lastName")
     email = request.form.get("email")
-    username = request.form.get("username")
+    username = request.form.get("username").upper()
     password = request.form.get("password")
     if(not firstName or not lastName or not email or not username or not password):
         return render_template("error.html")
