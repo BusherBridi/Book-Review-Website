@@ -90,6 +90,8 @@ def userCreationComplete():
             return render_template("error.html", error=errorMSG)
         else:
             session["logged_in"] = True
+            userInfo = db.execute("SELECT * FROM users WHERE username =:username",{"username":username}).fetchone()
+            session["user_info"] = {"user_id": userInfo.id, "firstName": userInfo.firstname}
             return render_template("userCreationComplete.html")
 
 @app.route("/logout")
