@@ -96,6 +96,7 @@ def userCreationComplete():
 def logout():
     session["logged_in"] = False
     message = "Please close tab to finish logging out!"
+    session.clear()
     return render_template("index.html", message=message)
 
 
@@ -175,7 +176,7 @@ def confirm():
         errorMSG = error.args[0]
         return render_template("error.html", error=errorMSG)
 
-    # TODO: Add code to 'reviewPage.html' to display current reviews from DB []
-    # TODO: Add confirm.html (and error?html) to tell user if DB was updated []
     # --------COMPLETED--------
     # TODO: Add this stuff to the DB.. Somehow get the USER_ID and BOOK_ID to add this in the DB
+    # TODO: Add confirm.html (and error?html) to tell user if DB was updated []
+    # TODO: Add code to 'reviewPage.html' to display current reviews from DB []
