@@ -72,11 +72,14 @@ def signUp():
 
 @app.route("/userCreationComplete", methods=["POST"])
 def userCreationComplete():
-    firstName = request.form.get("firstName")
-    lastName = request.form.get("lastName")
-    email = request.form.get("email")
-    username = request.form.get("username").upper()
-    password = request.form.get("password")
+    firstName = str(request.form.get("firstName"))
+    lastName = str(request.form.get("lastName"))
+    email = str(request.form.get("email"))
+    username = str(request.form.get("username").upper())
+    password = str(request.form.get("password"))
+    if(len(password) < 8):
+        errorMSG = "Password must be at least 8 characters long"
+        return render_template("error.html", error = errorMSG)
     if(not firstName or not lastName or not email or not username or not password):
         return render_template("error.html")
 
