@@ -85,12 +85,12 @@ def userCreationComplete():
             db.execute("INSERT INTO users (firstName, lastName, email, username, password) VALUES (:firstName, :lastName, :email, :username, :password)",
                        {"firstName": firstName, "lastName": lastName, "email": email, "username": username, "password": password})
             db.commit()
-            session["logged_in"] = True
-            return render_template("userCreationComplete.html")
         except Exception as error:
             errorMSG = error.args[0]
             return render_template("error.html", error=errorMSG)
-
+        else:
+            session["logged_in"] = True
+            return render_template("userCreationComplete.html")
 
 @app.route("/logout")
 def logout():
