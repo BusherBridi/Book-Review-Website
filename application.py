@@ -51,11 +51,13 @@ def dashboard():
     else:
         username = str(request.form.get("username").upper())
         password = str(request.form.get("password"))
-        passwordHash = 
-        if(db.execute("SELECT * FROM users WHERE upper(username) = :username AND password = :password", {"username": username, "password": password}).rowcount == 1):
+        passwordHash = hashlib.sha256() #idk why this cant be a global
+        passwordHash.update(password.encode('utf8'))
+        hashedPassword = str(passwordHash.hexdigest()) #I have no clue why I have to do this line
+        if(db.execute("SELECT * FROM users WHERE upper(username) = :username AND password = :password", {"username": username, "password": hashedPassword}).rowcount == 1):
             session["logged_in"] = True
             user = db.execute("SELECT * FROM users WHERE upper(username) = :username AND password = :password", {
-                "username": username, "password": password}).fetchone()
+                "username": username, "password": hashedPassword}).fetchone()
             user_id = user.id
             firstName = (user.firstname).capitalize()
             session["user_info"] = {"user_id": user_id, "firstName": firstName}
