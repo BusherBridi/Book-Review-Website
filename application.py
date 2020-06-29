@@ -24,7 +24,7 @@ db = scoped_session(sessionmaker(bind=engine))
 
 app.secret_key = "verysecretkey"
 
-passwordHash = hashlib.sha256()
+
 @app.route("/")
 def index():
     if ("logged_in" in session):
@@ -79,6 +79,7 @@ def userCreationComplete():
     email = str(request.form.get("email"))
     username = str(request.form.get("username").upper())
     password = str(request.form.get("password"))
+    passwordHash = hashlib.sha256()
     passwordHash.update(password.encode('utf8'))
     hashedPassword = str(passwordHash.hexdigest()) #I have no clue why I have to do this line
     if(len(password) < 8):
