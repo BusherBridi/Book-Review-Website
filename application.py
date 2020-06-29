@@ -49,8 +49,8 @@ def dashboard():
         #session["user_info"]["reviews"] = userReviews
         return render_template("userPage.html", firstName=firstName, reviews=userReviews)
     else:
-        username = request.form.get("username").upper()
-        password = request.form.get("password")
+        username = str(request.form.get("username").upper())
+        password = str(request.form.get("password"))
         if(db.execute("SELECT * FROM users WHERE upper(username) = :username AND password = :password", {"username": username, "password": password}).rowcount == 1):
             session["logged_in"] = True
             user = db.execute("SELECT * FROM users WHERE upper(username) = :username AND password = :password", {
