@@ -5,6 +5,7 @@ from flask_session import Session
 from sqlalchemy import create_engine, exc
 from sqlalchemy.orm import scoped_session, sessionmaker
 import traceback
+import hashlib
 
 app = Flask(__name__)
 
