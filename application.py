@@ -78,6 +78,9 @@ def userCreationComplete():
     email = str(request.form.get("email"))
     username = str(request.form.get("username").upper())
     password = str(request.form.get("password"))
+    passwordHash = hashlib.sha256()
+    passwordHash.update(password.encode('utf8'))
+    hashedPassword = str(passwordHash.hexdigest()) #I have no clue why I have to do this line
     if(len(password) < 8):
         errorMSG = "Password must be at least 8 characters long"
         return render_template("error.html", error = errorMSG)
@@ -86,8 +89,9 @@ def userCreationComplete():
 
     else:
         try:
+            
             db.execute("INSERT INTO users (firstName, lastName, email, username, password) VALUES (:firstName, :lastName, :email, :username, :password)",
-                       {"firstName": firstName, "lastName": lastName, "email": email, "username": username, "password": password})
+                       {"firstName": firstName, "lastName": lastName, "email": email, "username": username, "password": hashedPassword})
             db.commit()
         except Exception as error:
             errorMSG = error.args[0]
