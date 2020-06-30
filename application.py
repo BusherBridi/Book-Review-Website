@@ -155,13 +155,18 @@ def displayInfo(isbn):
     session["book_id"] = book.id
     user_id = session["user_info"]["user_id"]
     hasReviews = db.execute("SELECT reviews.*, books.id AS bookID, users.id FROM reviews INNER JOIN users ON reviews.user_id=users.id INNER JOIN books ON reviews.book_id=books.id WHERE user_id=:user_id AND book_id=:book_id",{"book_id":book.id, "user_id":user_id}).rowcount
-    # ratings = db.execute("SELECT rating FROM reviews WHERE book_id =: book_id",{"book_id":book.id}).fetchall()
-    # return(len(ratings))
-    # avgRating = None
-    # if len(ratings) != 0:
-    #     avgRating = int(sum(ratings)/len(ratings))
-    # else:
-    #     avgRating = "No reviews yet"
+    ratings = db.execute("SELECT rating FROM reviews WHERE book_id =:book_id",{"book_id":book.id}).fetchall()
+    avgRating = None
+    sumRatings = 0
+    count = 0
+    if ratings is None:
+        avgRating = "No reviews yet"
+    else:
+        for rating in ratings:
+            #this is the jankiest thing ive ever done
+            sumRatings = sumRatings + rating.rating
+            count = count + 1
+        avgRating = float(sumRatings/count)
     canPost = False
     if not hasReviews:
         canPost = True
@@ -170,8 +175,8 @@ def displayInfo(isbn):
     if request.method == "POST":
         session["book_id"] = book.id
 
-        #return render_template("reviewPage.html", book=book, reviews=reviews, canPost=canPost, avgRating = avgRating)
-        return render_template("reviewPage.html", book=book, reviews=reviews, canPost=canPost)
+        return render_template("reviewPage.html", book=book, reviews=reviews, canPost=canPost, avgRating = avgRating)
+        
     if request.method == "GET":
         if book is None:
             return jsonify({"error": "No book with ISBN in database"}), 422
