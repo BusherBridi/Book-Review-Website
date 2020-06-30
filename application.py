@@ -184,7 +184,8 @@ def displayInfo(isbn):
             return jsonify({
                 "isbn": book.isbn,
                 "title": book.title,
-                "author": book.author
+                "author": book.author,
+                "averageRating": avgRating
             })
 
 
