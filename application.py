@@ -155,7 +155,7 @@ def displayInfo(isbn):
     session["book_id"] = book.id
     user_id = session["user_info"]["user_id"]
     hasReviews = db.execute("SELECT reviews.*, books.id AS bookID, users.id FROM reviews INNER JOIN users ON reviews.user_id=users.id INNER JOIN books ON reviews.book_id=books.id WHERE user_id=:user_id AND book_id=:book_id",{"book_id":book.id, "user_id":user_id}).rowcount
-    ratings = db.execute("SELECT rating from books WHERE isbn = :isbn", {"isbn": isbn}).fetchall()
+    ratings = db.execute("SELECT rating from reviews WHERE book_id = :book_id", {"book_id": book.id}).fetchall()
     avgRating = sum(ratings)/len(ratings)
     canPost = False
     if not hasReviews:
