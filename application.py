@@ -7,6 +7,7 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 import traceback
 import hashlib
 
+
 app = Flask(__name__)
 
 # Check for environment variable
@@ -154,6 +155,8 @@ def displayInfo(isbn):
     session["book_id"] = book.id
     user_id = session["user_info"]["user_id"]
     hasReviews = db.execute("SELECT reviews.*, books.id AS bookID, users.id FROM reviews INNER JOIN users ON reviews.user_id=users.id INNER JOIN books ON reviews.book_id=books.id WHERE user_id=:user_id AND book_id=:book_id",{"book_id":book.id, "user_id":user_id}).rowcount
+    ratings = db.execute("SELECT rating from books WHERE isbn = :isbn", {"isbn": isbn}).fetchall()
+    avgRating = sum(ratings)/len(ratings)
     canPost = False
     if not hasReviews:
         canPost = True
@@ -162,7 +165,7 @@ def displayInfo(isbn):
     if request.method == "POST":
         session["book_id"] = book.id
 
-        return render_template("reviewPage.html", book=book, reviews=reviews, canPost=canPost)
+        return render_template("reviewPage.html", book=book, reviews=reviews, canPost=canPost, avgRating = avgRating)
     if request.method == "GET":
         if book is None:
             return jsonify({"error": "No book with ISBN in database"}), 422
