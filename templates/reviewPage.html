@@ -12,6 +12,7 @@
     <p>Title: {{book.title}}</p>
     <p>Author: {{book.author}}</p>
     <p>ISBN: {{book.isbn}}</p>
+    <p>Average Rating: {{avgRating}}</p>
 
     <ul>
         {% for review in reviews %}
@@ -39,7 +40,7 @@
         <button class="btn btn-primary" type="submit">Submit</button>
     </form>
     {% else %}
-    <p>You have already reviewed this book!</p>
+    <p>You have already reviewed this book! You cannot review a book twice.</p>
     {% endif %}
 </body>
 
