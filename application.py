@@ -13,7 +13,9 @@ app = Flask(__name__)
 # Check for environment variable
 if not os.getenv("DATABASE_URL"):
     raise RuntimeError("DATABASE_URL is not set")
-
+#get GoodReads API key:
+if not os.getenv("API_KEY"):
+    raise RuntimeError("API_KEY is not set")
 # Configure session to use filesystem
 # app.config["SESSION_PERMANENT"] = False
 # app.config["SESSION_TYPE"] = "filesystem"
@@ -174,6 +176,8 @@ def displayInfo(isbn):
     else:
         canPost = False
     if request.method == "POST":
+        
+        goodReadsReviews = request.get("https://www.goodreads.com/book/review_counts.json", params={"key": "KEY", "isbns": "9781632168146"})
         session["book_id"] = book.id
 
         return render_template("reviewPage.html", book=book, reviews=reviews, canPost=canPost, avgRating = avgRating)
