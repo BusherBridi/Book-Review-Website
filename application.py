@@ -152,6 +152,7 @@ def displayInfo(isbn):
                       {"isbn": isbn}).fetchone()
     #reviews = db.execute("SELECT reviews.* FROM reviews WHERE book_id =:book_id", {"book_id": book.id}).fetchall()
     reviews = db.execute("SELECT reviews.*, books.id AS bookID, users.username FROM reviews INNER JOIN users ON reviews.user_id=users.id INNER JOIN books ON reviews.book_id=books.id WHERE book_id =:book_id",{"book_id": book.id}).fetchall()
+    numberOfReviews = len(reviews)
     session["book_id"] = book.id
     user_id = session["user_info"]["user_id"]
     hasReviews = db.execute("SELECT reviews.*, books.id AS bookID, users.id FROM reviews INNER JOIN users ON reviews.user_id=users.id INNER JOIN books ON reviews.book_id=books.id WHERE user_id=:user_id AND book_id=:book_id",{"book_id":book.id, "user_id":user_id}).rowcount
@@ -179,13 +180,15 @@ def displayInfo(isbn):
         
     if request.method == "GET":
         if book is None:
-            return jsonify({"error": "No book with ISBN in database"}), 422
+            return jsonify({"error": "No book with ISBN in database"}), 404
         else:
             return jsonify({
-                "isbn": book.isbn,
                 "title": book.title,
                 "author": book.author,
-                "averageRating": avgRating
+                "year": book.year,
+                "isbn": book.isbn,
+                "review_count":numberOfReviews,
+                "average_score": avgRating
             })
 
 
