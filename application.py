@@ -13,9 +13,11 @@ app = Flask(__name__)
 # Check for environment variable
 if not os.getenv("DATABASE_URL"):
     raise RuntimeError("DATABASE_URL is not set")
+
 #get GoodReads API key:
 if not os.getenv("API_KEY"):
     raise RuntimeError("API_KEY is not set")
+
 # Configure session to use filesystem
 # app.config["SESSION_PERMANENT"] = False
 # app.config["SESSION_TYPE"] = "filesystem"
@@ -26,7 +28,7 @@ engine = create_engine(os.getenv("DATABASE_URL"))
 db = scoped_session(sessionmaker(bind=engine))
 
 app.secret_key = "verysecretkey"
-
+goodreadsAPIKey  = os.getenv("API_KEY") #Python wont let me set this as a const
 
 @app.route("/")
 def index():
