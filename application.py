@@ -155,8 +155,13 @@ def displayInfo(isbn):
     session["book_id"] = book.id
     user_id = session["user_info"]["user_id"]
     hasReviews = db.execute("SELECT reviews.*, books.id AS bookID, users.id FROM reviews INNER JOIN users ON reviews.user_id=users.id INNER JOIN books ON reviews.book_id=books.id WHERE user_id=:user_id AND book_id=:book_id",{"book_id":book.id, "user_id":user_id}).rowcount
-    ratings = db.execute("SELECT rating from reviews WHERE book_id = :book_id", {"book_id": book.id}).fetchall()
-    avgRating = sum(ratings)/len(ratings)
+    # ratings = db.execute("SELECT rating FROM reviews WHERE book_id =: book_id",{"book_id":book.id}).fetchall()
+    # return(len(ratings))
+    # avgRating = None
+    # if len(ratings) != 0:
+    #     avgRating = int(sum(ratings)/len(ratings))
+    # else:
+    #     avgRating = "No reviews yet"
     canPost = False
     if not hasReviews:
         canPost = True
@@ -165,7 +170,8 @@ def displayInfo(isbn):
     if request.method == "POST":
         session["book_id"] = book.id
 
-        return render_template("reviewPage.html", book=book, reviews=reviews, canPost=canPost, avgRating = avgRating)
+        #return render_template("reviewPage.html", book=book, reviews=reviews, canPost=canPost, avgRating = avgRating)
+        return render_template("reviewPage.html", book=book, reviews=reviews, canPost=canPost)
     if request.method == "GET":
         if book is None:
             return jsonify({"error": "No book with ISBN in database"}), 422
@@ -191,6 +197,7 @@ def confirm():
     except Exception as error:
         errorMSG = error.args[0]
         return render_template("error.html", error=errorMSG)
+    # TODO: fix letter casing bugs in dashboard and review page
     # TODO: Get reviews from goodreads.com API
     # TODO: Add average review for each book
     # TODO: Fix front-end
