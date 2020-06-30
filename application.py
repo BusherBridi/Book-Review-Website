@@ -188,7 +188,10 @@ def confirm():
     except Exception as error:
         errorMSG = error.args[0]
         return render_template("error.html", error=errorMSG)
-    
+    # TODO: Get reviews from goodreads.com API
+    # TODO: Add average review for each book
+    # TODO: Fix front-end
+    # TODO: Change from list of books to cards
     # --------COMPLETED--------
     # TODO: Add this stuff to the DB.. Somehow get the USER_ID and BOOK_ID to add this in the DB
     # TODO: Add confirm.html (and error?html) to tell user if DB was updated []
