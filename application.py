@@ -204,7 +204,6 @@ def confirm():
         return render_template("error.html", error=errorMSG)
     # TODO: fix letter casing bugs in dashboard and review page
     # TODO: Get reviews from goodreads.com API
-    # TODO: Add average review for each book
     # TODO: Fix front-end
     # TODO: Change from list of books to cards
     # --------COMPLETED--------
@@ -213,3 +212,4 @@ def confirm():
     # TODO: Add code to 'reviewPage.html' to display current reviews from DB []
     # TODO: remove case sensitivty in username
     # TODO: add password constraints in sign up
+    # TODO: Add average review for each book
