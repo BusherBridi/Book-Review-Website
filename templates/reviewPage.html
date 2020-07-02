@@ -37,8 +37,14 @@
                 <option value="5">5</option>
             </select>
         <label for="review">Please leave a review:</label>
-        <input type="text" name="review" id="review" spellcheck="true">
-        <button class=" btn btn-primary " type="submit ">Submit</button>
+        <!-- <input type="text" name="review" id="review" spellcheck="true"> -->
+        <div class="input-group" id="reviewBox">
+            <div class="input-group-prepend">
+            </div>
+            <textarea class="form-control" id="review" name="review" spellcheck="true"></textarea>
+
+        </div>
+        <button class=" btn btn-primary " type="submit" id="reviewSubmitBtn">Submit</button>
     </form>
     {% else %}
     <p>You have already reviewed this book! You cannot review a book twice.</p>
