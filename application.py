@@ -6,6 +6,7 @@ from sqlalchemy import create_engine, exc
 from sqlalchemy.orm import scoped_session, sessionmaker
 import traceback
 import hashlib
+import requests
 
 
 app = Flask(__name__)
@@ -171,7 +172,10 @@ def displayInfo(isbn):
             #this is the jankiest thing ive ever done
             sumRatings = sumRatings + rating.rating
             count = count + 1
-        avgRating = float(sumRatings/count)
+        if(sumRatings == 0 or count == 0):
+            avgRating = "No reviews yet"
+        else:
+            avgRating = float(sumRatings/count)
     canPost = False
     if not hasReviews:
         canPost = True
@@ -179,10 +183,12 @@ def displayInfo(isbn):
         canPost = False
     if request.method == "POST":
         
-        goodReadsReviews = request.get("https://www.goodreads.com/book/review_counts.json", params={"key": "KEY", "isbns": "9781632168146"})
+        goodReadsReviews = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": goodreadsAPIKey, "isbns":book.isbn})
+        data = goodReadsReviews.json()
+        goodReadsAvgRating = data["books"][0]["average_rating"]
         session["book_id"] = book.id
 
-        return render_template("reviewPage.html", book=book, reviews=reviews, canPost=canPost, avgRating = avgRating)
+        return render_template("reviewPage.html", book=book, reviews=reviews, canPost=canPost, avgRating = avgRating, goodReadsAvgRating = goodReadsAvgRating)
         
     if request.method == "GET":
         if book is None:
